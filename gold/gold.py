@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 def readCSV(path):
@@ -80,13 +81,19 @@ def riskScore(row):
     return min(score,100)
 
 def buildGold():
+    os.makedirs("gold", exist_ok=True)
     df = readCSV("silver/data.csv")
     df["temp_category"] = df["temperature_2m_max"].apply(tempCategory)
     df["rain_category"] = df["precipitation_sum"].apply(rainCategory)
     df["wind_speed_category"] = df["wind_speed_10m_max"].apply(windSpeedCategory)
+    df["wind_category"] = df["wind_speed_category"]
     df["risk_score"] = df.apply(riskScore, axis=1)
     df.to_csv("gold/data.csv", index=False)
+    print(f"Gold processing completed with {len(df)} rows")
     return df
 
+def main():
+    return buildGold()
+
 if __name__ == "__main__":
-    buildGold()
+    main()

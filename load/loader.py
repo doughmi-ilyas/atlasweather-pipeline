@@ -9,7 +9,12 @@ def readCSV(path):
     return pd.read_csv(path)
 
 def connect():
-    url = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@localhost:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
+    host = os.getenv("DB_HOST", "localhost")
+    port = os.getenv("POSTGRES_PORT", "5432")
+    user = os.getenv("POSTGRES_USER", "atlasweather")
+    pwd = os.getenv("POSTGRES_PASSWORD", "atlasweather123")
+    db = os.getenv("POSTGRES_DB", "atlasweather")
+    url = f"postgresql+psycopg2://{user}:{pwd}@{host}:{port}/{db}"
     engine = create_engine(url)
     print("connected")
     return engine
@@ -85,14 +90,17 @@ def loadForecasts(engine, df):
                     "risk_score": row.risk_score,
                     "temp_category": row.temp_category,
                     "rain_category": row.rain_category,
-                    "wind_category": row.wind_speed_category
+                    "wind_category": row.wind_category
                 }
             )
 
     print(f"loaded {len(df)} forecasts")
 
-if __name__ == "__main__":
+def main():
     engine = connect()
     df = readCSV("gold/data.csv")
     loadCities(engine, df)
     loadForecasts(engine, df)
+
+if __name__ == "__main__":
+    main()

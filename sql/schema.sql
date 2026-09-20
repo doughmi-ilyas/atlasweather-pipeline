@@ -1,4 +1,4 @@
-CREATE TABLE cities (
+CREATE TABLE IF NOT EXISTS cities (
     city_id    SERIAL PRIMARY KEY,
     city       VARCHAR(50) UNIQUE NOT NULL,
     latitude   NUMERIC,
@@ -7,7 +7,7 @@ CREATE TABLE cities (
     population INT
 );
 
-CREATE TABLE weather_forecast (
+CREATE TABLE IF NOT EXISTS weather_forecast (
     forecast_id SERIAL PRIMARY KEY,
     city_id     INT REFERENCES cities(city_id),
     date        DATE,
