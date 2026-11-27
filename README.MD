@@ -54,7 +54,7 @@ Sample run with forecasts from 2026-09-14 to 2026-09-16 (360 rows, 120 cities):
 Requirements: Python 3.11, Docker and Docker Compose.
 
 ```bash
-git clone https://github.com/eliasdeva/atlasweather-pipeline.git
+git clone https://github.com/doughmi-ilyas/atlasweather-pipeline.git
 cd atlasweather-pipeline
 cp .env.example .env
 ```
